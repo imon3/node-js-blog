@@ -1,9 +1,13 @@
 const path = require("path");
 const expressEdge = require("express-edge");
 const express = require("express");
+const mongoose = require("mongoose");
 
 const app = express();
 
+mongoose.connect("mongodb://localhost/node-js-blog", { useNewUrlParser: true });
+
+// Use Express Static
 app.use(express.static("public"));
 
 // Use Express Edge
