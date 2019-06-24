@@ -38,7 +38,7 @@ app.get("/contact", (req, res) => {
 });
 
 // Post Page Route
-app.get("/posts", (req, res) => {
+app.get("/post", (req, res) => {
   // Express Static
   // res.sendFile(path.resolve(__dirname, "pages/post.html"));
 
