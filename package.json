@@ -20,7 +20,8 @@
   "homepage": "https://github.com/imon3/node-js-blog#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "express-edge": "^1.0.0"
+    "express-edge": "^1.0.0",
+    "mongoose": "^5.6.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
