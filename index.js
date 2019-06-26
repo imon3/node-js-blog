@@ -3,10 +3,11 @@ const expressEdge = require("express-edge");
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const Post = require("./database/models/Posts");
 
 const app = express();
 
-mongoose.connect("mongodb://localhost/node-js-blog", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/node-js-blog");
 
 // Use Express Static
 app.use(express.static("public"));
@@ -21,12 +22,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // ------- Get Routes -------
 // ------- Home Page Route -------
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   //Express Static
   // res.sendFile(path.resolve(__dirname, "pages/index.html"));
 
   // Express Edge
-  res.render("index");
+  const posts = await Post.find({});
+  console.log(posts);
+  res.render("index", {
+    posts
+  });
 });
 
 // ------- About Page Route -------
@@ -56,6 +61,18 @@ app.get("/post", (req, res) => {
   res.render("post");
 });
 
+// ------- Get Individual Post By ID -------
+app.get("/post/:id", async (req, res) => {
+  const id = await req.params.id;
+  const posts = await Post.findById(id, (err, post) => {
+    console.log(err, post);
+  });
+
+  res.render("post", {
+    posts
+  });
+});
+
 // ------- Create New Post Route -------
 app.get("/post/new", (req, res) => {
   res.render("create");
@@ -64,7 +81,9 @@ app.get("/post/new", (req, res) => {
 // ------- Post Routes -------
 // -------Post New Post Route -------
 app.post("/post/store", (req, res) => {
-  res.redirect("/");
+  Post.create(req.body, (err, post) => {
+    res.redirect("/");
+  });
 });
 
 const port = 3000;
